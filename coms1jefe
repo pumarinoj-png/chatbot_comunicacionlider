@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversación de un Problema</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --surface2: #F0EDE6;
+    --border: #E2DDD4;
+    --text: #1A1714;
+    --text-muted: #7A7368;
+    --accent: #2C5F4A;
+    --accent-light: #E8F2EE;
+    --accent-border: #A8CDBF;
+    --danger: #8B2020;
+    --danger-light: #FBF0F0;
+    --amber: #7A4F1A;
+    --amber-light: #FEF6E8;
+    --user-bg: #2C5F4A;
+    --user-text: #FFFFFF;
+    --bot-bg: #FFFFFF;
+    --bot-border: #E2DDD4;
+    --radius: 16px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-icon svg { width: 18px; height: 18px; color: white; }
+
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+
+  .header-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  /* Header action buttons — always visible */
+  .header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .btn-header {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  .btn-header:hover { background: var(--surface2); color: var(--text); border-color: #ccc; }
+
+  .btn-header.primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .btn-header.primary:hover { opacity: 0.85; background: var(--accent); }
+
+  .btn-header svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+  /* Disabled state for feedback button when no messages yet */
+  .btn-header:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .btn-header:disabled:hover {
+    background: transparent;
+    color: var(--text-muted);
+    border-color: var(--border);
+  }
+
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 760px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 16px 130px;
+    gap: 16px;
+  }
+
+  .context-card {
+    background: var(--accent-light);
+    border: 1px solid var(--accent-border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .context-card .dot {
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  .context-card p {
+    font-size: 12.5px;
+    color: var(--accent);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .messages {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .msg {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    animation: fadeUp 0.25s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg.user { flex-direction: row-reverse; }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .avatar.bot-avatar {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  .avatar.user-avatar {
+    background: var(--user-bg);
+    color: white;
+  }
+
+  .msg-content { max-width: 78%; }
+  .msg.user .msg-content { display: flex; flex-direction: column; align-items: flex-end; }
+
+  .bubble {
+    padding: 11px 15px;
+    border-radius: 18px;
+    line-height: 1.6;
+    font-size: 14.5px;
+  }
+
+  .msg.bot .bubble {
+    background: var(--bot-bg);
+    border: 1px solid var(--bot-border);
+    border-bottom-left-radius: 4px;
+    box-shadow: var(--shadow);
+    color: var(--text);
+  }
+
+  .msg.user .bubble {
+    background: var(--user-bg);
+    color: var(--user-text);
+    border-bottom-right-radius: 4px;
+  }
+
+  /* Stage direction: italic, small, muted — only for first bot message */
+  .stage-direction {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+    padding-left: 2px;
+  }
+
+  .sender-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .msg.user .sender-name { text-align: right; }
+
+  .typing-dots {
+    display: flex;
+    gap: 4px;
+    padding: 4px 0;
+    align-items: center;
+  }
+
+  .typing-dots span {
+    width: 6px;
+    height: 6px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    animation: bounce 1.2s infinite;
+  }
+
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-5px); }
+  }
+
+  .input-area {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, var(--bg) 28%);
+    padding: 12px 16px 16px;
+    z-index: 50;
+  }
+
+  .input-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 8px 8px 16px;
+    box-shadow: var(--shadow);
+  }
+
+  .input-inner textarea {
+    flex: 1;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14.5px;
+    color: var(--text);
+    background: transparent;
+    min-height: 24px;
+    max-height: 120px;
+    line-height: 1.5;
+    padding: 4px 0;
+  }
+
+  .input-inner textarea::placeholder { color: var(--text-muted); }
+
+  .send-btn {
+    width: 38px;
+    height: 38px;
+    background: var(--accent);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: opacity 0.15s;
+  }
+
+  .send-btn:hover { opacity: 0.85; }
+  .send-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .send-btn svg { width: 16px; height: 16px; color: white; }
+
+  /* FEEDBACK OVERLAY */
+  .feedback-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 200;
+    overflow-y: auto;
+    padding: 24px 16px 40px;
+  }
+
+  .feedback-overlay.open { display: block; }
+
+  .feedback-panel {
+    background: var(--surface);
+    border-radius: 24px;
+    max-width: 680px;
+    margin: 0 auto;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+  }
+
+  .feedback-header {
+    background: var(--accent);
+    padding: 26px 30px;
+    color: white;
+  }
+
+  .feedback-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    margin-bottom: 5px;
+    font-weight: 400;
+  }
+
+  .feedback-header .fh-meta {
+    font-size: 12px;
+    opacity: 0.7;
+    line-height: 1.5;
+  }
+
+  .feedback-header .fh-partial {
+    font-size: 11.5px;
+    opacity: 0.65;
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .feedback-body {
+    padding: 26px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .feedback-section-title {
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .color-block {
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+  }
+
+  .color-block.green { background: #EAF6F0; border-left: 3px solid #2C8A5A; }
+  .color-block.yellow { background: var(--amber-light); border-left: 3px solid #C4821A; }
+  .color-block.red { background: var(--danger-light); border-left: 3px solid #C0392B; }
+
+  .color-block .color-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .color-block.green .color-label { color: #1A6640; }
+  .color-block.yellow .color-label { color: #7A4F1A; }
+  .color-block.red .color-label { color: #8B2020; }
+
+  .color-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .green .color-dot { background: #2C8A5A; }
+  .yellow .color-dot { background: #C4821A; }
+  .red .color-dot { background: #C0392B; }
+
+  .color-block .phrase-item {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text);
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    font-style: italic;
+  }
+  .color-block .phrase-item:last-child { border-bottom: none; }
+
+  .color-block .empty-note {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .general-eval {
+    background: var(--surface2);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+
+  .overall-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 13px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+
+  .overall-badge.green { background: #EAF6F0; color: #1A6640; }
+  .overall-badge.yellow { background: var(--amber-light); color: #7A4F1A; }
+  .overall-badge.red { background: var(--danger-light); color: #8B2020; }
+
+  .eval-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .suggestions-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .suggestion-item {
+    display: flex;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .suggestion-item:last-child { border-bottom: none; }
+
+  .suggestion-num {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    margin-top: 3px;
+  }
+
+  .feedback-footer {
+    padding: 18px 30px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .btn-fclose {
+    background: var(--accent);
+    color: white;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    padding: 9px 22px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn-fclose:hover { opacity: 0.85; }
+
+  .btn-fnew {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    padding: 9px 22px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-fnew:hover { background: var(--surface2); color: var(--text); }
+
+  .loading-feedback {
+    text-align: center;
+    padding: 48px 32px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .loading-feedback .spinner {
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 14px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .end-notice {
+    text-align: center;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    background: var(--surface2);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+  }
+
+  @media (max-width: 520px) {
+    .feedback-header, .feedback-body, .feedback-footer { padding: 18px; }
+    .bubble { font-size: 14px; }
+    .header-subtitle { display: none; }
+    .msg-content { max-width: 88%; }
+    .btn-header span { display: none; }
+    .btn-header { padding: 7px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-brand">
+    <div class="header-icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+      </svg>
+    </div>
+    <div>
+      <div class="header-title">Conversación de un Problema</div>
+      <div class="header-subtitle">Practica conversaciones difíciles</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="btn-header" id="btnRestart" onclick="restartConversation()">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+      </svg>
+      <span>Reiniciar</span>
+    </button>
+    <button class="btn-header primary" id="btnFeedback" onclick="openFeedback()" disabled>
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+      </svg>
+      <span>Ver evaluación</span>
+    </button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="context-card">
+    <div class="dot"></div>
+    <p>Eres el jefe. Tu colaborador se acercará con una situación problemática. Puedes pedir evaluación en cualquier momento o al final.</p>
+  </div>
+  <div class="messages" id="messages"></div>
+</div>
+
+<div class="input-area">
+  <div class="input-inner">
+    <textarea id="userInput" placeholder="Responde como jefe..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+    <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 19V5M5 12l7-7 7 7"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="feedback-overlay" id="feedbackOverlay">
+  <div class="feedback-panel">
+    <div class="loading-feedback" id="feedbackLoading">
+      <div class="spinner"></div>
+      Analizando tu estilo de liderazgo...
+    </div>
+    <div id="feedbackContent" style="display:none"></div>
+  </div>
+</div>
+
+<script>
+const SELLO = `Creemos en un liderazgo cercano y de puertas abiertas
+que escucha antes de hablar,
+que confía, pero se involucra,
+que enseña para poder exigir.
+Un liderazgo que conecta personas,
+proyecta futuro y anticipa nuevos escenarios,
+haciendo que las cosas pasen.
+Liderar es ser ejemplo,
+es reconocer errores,
+aprender de ellos
+y colaborar activamente,
+es inspirar desde la coherencia,
+Porque los resultados sostenibles
+nacen de equipos resilientes,
+que crecen, se adaptan y dejan huella.`;
+
+const SITUATIONS = [
+  { area: "Operaciones", desc: "Un colaborador repite errores en el empaquetado y ya hubo reclamos de clientes." },
+  { area: "Calidad y Seguridad", desc: "Un técnico omitió registros sanitarios para ahorrar tiempo." },
+  { area: "Comercial", desc: "Un ejecutivo prometió una fecha de entrega imposible de cumplir." },
+  { area: "Administración", desc: "Se realizó un pago duplicado a un proveedor por descuido." },
+  { area: "Personas / RRHH", desc: "Dos colaboradores están en conflicto y afectan al equipo." },
+  { area: "Ingeniería y Proyectos", desc: "Un atraso crítico no fue informado a tiempo." },
+  { area: "Logística", desc: "Un pedido importante quedó fuera del despacho del día." },
+  { area: "Seguridad Laboral", desc: "Un operador experimentado incumple normas de seguridad." },
+  { area: "Servicio al Cliente", desc: "Un ejecutivo respondió mal a un reclamo relevante." },
+  { area: "Operaciones", desc: "Una colaboradora bajó abruptamente su desempeño y concentración." },
+  { area: "Producción", desc: "Una línea de producción estuvo detenida 40 minutos porque nadie reportó una falla menor a tiempo." },
+  { area: "Producción", desc: "Un turno produjo un lote completo fuera de especificación por no verificar un ajuste de máquina." },
+  { area: "Producción", desc: "Un operador nuevo no siguió el procedimiento correcto y generó merma innecesaria." },
+  { area: "Producción", desc: "El equipo del turno noche dejó problemas sin informar al siguiente turno." },
+  { area: "Producción", desc: "Un colaborador aceleró el ritmo de producción saltándose controles básicos para cumplir la meta diaria." },
+];
+
+// Stage directions for the opening — one per situation (same order)
+const STAGE_DIRECTIONS = [
+  "Se acerca con cara de preocupación, evitando el contacto visual...",
+  "Llega apurado, con papeles en la mano, como si recién se hubiera enterado...",
+  "Aparece en la puerta de la oficina, titubea antes de entrar...",
+  "Se sienta frente al escritorio, tamborilea los dedos, busca cómo empezar...",
+  "Entra y cierra la puerta despacio, sin mucho apuro...",
+  "Se para en el marco de la puerta, con cara de que trae malas noticias...",
+  "Llega directo, como quien quiere soltar algo antes de arrepentirse...",
+  "Pasa de largo y luego retrocede, claramente con algo que decir...",
+  "Entra con una sonrisa forzada que no convence...",
+  "Se acerca lentamente, como calculando cómo plantear la situación...",
+  "Aparece con cara larga, mira alrededor antes de hablar...",
+  "Entra y se sienta sin que nadie lo invitara, señal de que algo pasó...",
+  "Toca el marco de la puerta antes de entrar, algo nervioso...",
+  "Llega directo al grano, aunque se nota que preferiría no estar ahí...",
+  "Se asoma, revisa que no haya nadie más escuchando, y entra...",
+];
+
+const chosenIndex = Math.floor(Math.random() * SITUATIONS.length);
+const chosenSituation = SITUATIONS[chosenIndex];
+const chosenStageDirection = STAGE_DIRECTIONS[chosenIndex];
+
+let conversationHistory = [];
+let userMessagesLog = [];
+let turnCount = 0;
+let isEnded = false;
+let isLoading = false;
+let isFirstBotMessage = true;
+
+const systemPrompt = `Eres un colaborador/subalterno hablando con tu jefe directo. Tu nombre es Andrés.
+
+SITUACIÓN QUE DEBES REPORTAR:
+Área: ${chosenSituation.area}
+Problema: ${chosenSituation.desc}
+
+INSTRUCCIONES DE COMPORTAMIENTO:
+- Comienzas reportando la situación de forma vaga o incompleta. NO reconoces responsabilidad propia al inicio — le das un tono neutro o externalizado al problema, como si fuera algo que "pasó" más que algo que tú causaste o pudiste evitar.
+- Tu tendencia natural es quitarte responsabilidad: factores externos, falta de información, carga de trabajo, otros compañeros, falta de instrucciones claras.
+- NO eres obstinado ni agresivo. Eres un trabajador normal, no especialmente malicioso, pero sí con baja accountability.
+- Si el jefe responde con empatía genuina, hace preguntas abiertas, escucha sin juzgar inmediatamente, muestra interés en entender el contexto → poco a poco empiezas a ceder, reconoces tu parte, te muestras más dispuesto a colaborar.
+- Si el jefe responde con frialdad, presión, sarcasmo, reproches o indiferencia → te encierras más, das más excusas, te pones defensivo sin llegar a ser agresivo.
+- Usa lenguaje cotidiano y coloquial latinoamericano/chileno. Frases cortas. Sin lenguaje corporativo.
+- Máximo 3-4 oraciones por respuesta.
+- Después de 5-8 intercambios, puedes cerrar la conversación de forma natural diciendo que tienes que volver al trabajo. Escribe exactamente al final de ese mensaje: [FIN_CONVERSACION]
+
+TONO: realista, humano, algo incómodo. No exageradamente defensivo desde el inicio — parte más en modo "informar" y solo se pone más defensivo si el jefe lo presiona o no responde bien.`;
+
+async function callClaude(messages) {
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 400,
+      system: systemPrompt,
+      messages: messages
+    })
+  });
+  const data = await response.json();
+  return data.content[0].text;
+}
+
+async function callClaudeForFeedback(userMessages, isPartial) {
+  const partialNote = isPartial
+    ? `IMPORTANTE: Esta evaluación es parcial — la conversación aún no ha terminado. En la evaluación general, señala explícitamente qué aspectos de liderazgo todavía no han sido abordados o quedan pendientes de demostrar.`
+    : `La conversación ya ha terminado.`;
+
+  const feedbackPrompt = `Eres un experto en liderazgo y comunicación organizacional. Evalúas con criterio real, no de manera condescendiente ni excesivamente positiva.
+
+El usuario participó en una simulación actuando como jefe de un colaborador que reportó una situación problemática.
+
+SELLO DE LIDERAZGO DE REFERENCIA:
+${SELLO}
+
+SITUACIÓN: ${chosenSituation.area} — ${chosenSituation.desc}
+
+MENSAJES DEL JEFE (en orden cronológico, estos son TODOS los mensajes del jefe):
+${userMessages.map((m, i) => `${i+1}. "${m}"`).join('\n')}
+
+${partialNote}
+
+INSTRUCCIONES DE EVALUACIÓN:
+
+CRITERIOS DE COLOR — aplica estos con precisión:
+
+VERDE: El jefe mantiene empatía y calma, pero además es firme, pone límites claros cuando corresponde, orienta hacia soluciones concretas y hace que las cosas pasen. Escucha antes de hablar, pero no se queda solo en escuchar — involucra, exige con respaldo, enseña. Transmite elementos del sello: cercanía, confianza con involucramiento, proyección de futuro, coherencia entre lo que dice y lo que hace. Es verde cuando el mensaje combina calidez con dirección real.
+
+AMARILLO: El mensaje tiene buena intención pero le falta profundidad, firmeza o concreción. Puede ser empático pero evasivo, o directo pero sin escucha. Roza el sello sin encarnarlo del todo. También es amarillo quien hace preguntas pero nunca llega a nada, o quien muestra interés pero no se involucra de verdad.
+
+ROJO — hay DOS tipos de rojo, igualmente problemáticos:
+  Tipo A — Rojo por dureza: mensajes fríos, acusatorios, con presión, sarcasmo, reproches o que cierran el diálogo. Generan tensión o rechazo. Muy desalineados del sello.
+  Tipo B — Rojo por condescendencia: mensajes que solo buscan calmar al colaborador, complacer, evitar el conflicto a toda costa, sin resolver nada ni poner ningún límite. El jefe "se borra", no exige, no hace que las cosas pasen, no es ejemplo. Parece empático pero en realidad abandona su rol. También es rojo porque traiciona el sello: un liderazgo que no inspira, no enseña ni exige, no produce resultados sostenibles.
+
+REGLAS ADICIONALES:
+- Evalúa si el mensaje transmite o contradice aspectos concretos del sello: ¿escucha antes de hablar? ¿confía pero se involucra? ¿enseña para poder exigir? ¿conecta? ¿proyecta futuro? ¿hace que las cosas pasen? ¿es coherente? ¿inspira?
+- No seas permisivo: "buenas intenciones" sin acción ni firmeza = amarillo o rojo tipo B.
+- Un mensaje cortés pero que no resuelve ni orienta no es verde.
+- La evaluación general debe basarse en lo que REALMENTE ocurrió, no en lo que podría haber pasado.
+- Las sugerencias deben ser exactamente 2, concretas y accionables.
+
+Responde SOLO con JSON válido, sin texto adicional ni backticks:
+{
+  "frases_verdes": ["frase 1", "frase 2"],
+  "frases_amarillas": ["frase 1"],
+  "frases_rojas": ["frase 1"],
+  "color_general": "verde" | "amarillo" | "rojo",
+  "evaluacion_general": "2-3 oraciones evaluando el estilo real del jefe. Si es parcial, menciona qué falta.",
+  "sugerencias": [
+    "Sugerencia concreta 1",
+    "Sugerencia concreta 2"
+  ]
+}`;
+
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1200,
+      messages: [{ role: "user", content: feedbackPrompt }]
+    })
+  });
+  const data = await response.json();
+  return data.content[0].text;
+}
+
+function addMessage(role, text, stageDir) {
+  const container = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+
+  const isBot = role === 'bot';
+  const avatarClass = isBot ? 'bot-avatar' : 'user-avatar';
+  const avatarText = isBot ? 'AN' : 'JE';
+  const senderName = isBot ? 'Andrés' : 'Tú';
+
+  const stageDirHtml = stageDir
+    ? `<div class="stage-direction">${stageDir}</div>`
+    : '';
+
+  div.innerHTML = `
+    <div class="avatar ${avatarClass}">${avatarText}</div>
+    <div class="msg-content">
+      ${stageDirHtml}
+      <div class="sender-name">${senderName}</div>
+      <div class="bubble">${text.replace(/\[FIN_CONVERSACION\]/g, '').trim()}</div>
+    </div>
+  `;
+  container.appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+function showTyping() {
+  const container = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg bot';
+  div.id = 'typingIndicator';
+  div.innerHTML = `
+    <div class="avatar bot-avatar">AN</div>
+    <div class="msg-content">
+      <div class="sender-name">Andrés</div>
+      <div class="bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>
+    </div>
+  `;
+  container.appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+function removeTyping() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+async function startConversation() {
+  document.getElementById('sendBtn').disabled = true;
+  showTyping();
+  try {
+    const greeting = await callClaude([{
+      role: "user",
+      content: "Inicia la conversación. Reporta la situación a tu jefe de forma natural. Parte en modo de 'informar', sin ponerte defensivo todavía — ese tono solo aparece si el jefe te presiona. Sé breve."
+    }]);
+    removeTyping();
+    addMessage('bot', greeting, chosenStageDirection);
+    conversationHistory.push({ role: "user", content: "Inicia la conversación reportando la situación." });
+    conversationHistory.push({ role: "assistant", content: greeting });
+    isFirstBotMessage = false;
+  } catch(e) {
+    removeTyping();
+    addMessage('bot', 'Jefe, ¿tiene un momento? Pasó algo que necesito contarle...', chosenStageDirection);
+    isFirstBotMessage = false;
+  }
+  document.getElementById('sendBtn').disabled = false;
+}
+
+async function sendMessage() {
+  if (isLoading || isEnded) return;
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  autoResize(input);
+  userMessagesLog.push(text);
+  addMessage('user', text);
+  conversationHistory.push({ role: "user", content: text });
+  turnCount++;
+
+  // Enable feedback button after first user message
+  document.getElementById('btnFeedback').disabled = false;
+
+  document.getElementById('sendBtn').disabled = true;
+  isLoading = true;
+  showTyping();
+
+  try {
+    const reply = await callClaude(conversationHistory);
+    removeTyping();
+    const isEnd = reply.includes('[FIN_CONVERSACION]');
+    const cleanReply = reply.replace(/\[FIN_CONVERSACION\]/g, '').trim();
+    addMessage('bot', cleanReply);
+    conversationHistory.push({ role: "assistant", content: reply });
+
+    if (isEnd || turnCount >= 8) {
+      isEnded = true;
+      setTimeout(() => {
+        const container = document.getElementById('messages');
+        const notice = document.createElement('div');
+        notice.className = 'end-notice';
+        notice.textContent = 'La conversación ha terminado. Puedes revisar tu evaluación de liderazgo.';
+        container.appendChild(notice);
+        notice.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('userInput').disabled = true;
+        document.getElementById('sendBtn').disabled = true;
+      }, 800);
+    }
+  } catch(e) {
+    removeTyping();
+    addMessage('bot', 'Disculpe jefe, se me cortó... ¿me decía?');
+  }
+
+  isLoading = false;
+  if (!isEnded) document.getElementById('sendBtn').disabled = false;
+}
+
+async function openFeedback() {
+  if (userMessagesLog.length === 0) return;
+
+  document.getElementById('feedbackOverlay').classList.add('open');
+  document.getElementById('feedbackLoading').style.display = 'block';
+  document.getElementById('feedbackContent').style.display = 'none';
+
+  try {
+    const raw = await callClaudeForFeedback(userMessagesLog, !isEnded);
+    const clean = raw.replace(/```json[\s\S]*?```/g, m => m.replace(/```json|```/g, '')).replace(/```/g, '').trim();
+    const data = JSON.parse(clean);
+    renderFeedback(data, !isEnded);
+  } catch(e) {
+    document.getElementById('feedbackLoading').innerHTML = '<p style="color:#8B2020;padding:20px;text-align:center">Hubo un error al generar la evaluación. Inténtalo nuevamente.</p>';
+  }
+}
+
+function renderFeedback(data, isPartial) {
+  document.getElementById('feedbackLoading').style.display = 'none';
+
+  const colorLabels = {
+    verde: 'Verde — empático, firme y orientado a soluciones',
+    amarillo: 'Amarillo — alineamiento parcial con el sello',
+    rojo: 'Rojo — duro/acusatorio o condescendiente sin resolver'
+  };
+  const colorEmoji = { verde: '🟢', amarillo: '🟡', rojo: '🔴' };
+
+  function buildColorBlock(color, phrases) {
+    const cssClass = { verde: 'green', amarillo: 'yellow', rojo: 'red' }[color];
+    const items = phrases && phrases.length > 0
+      ? phrases.map(p => `<div class="phrase-item">"${p}"</div>`).join('')
+      : `<div class="empty-note">Sin frases en esta categoría.</div>`;
+    return `<div class="color-block ${cssClass}">
+      <div class="color-label"><div class="color-dot"></div>${colorLabels[color]}</div>
+      ${items}
+    </div>`;
+  }
+
+  const suggestions = (data.sugerencias || []).slice(0, 2).map((s, i) => `
+    <div class="suggestion-item">
+      <div class="suggestion-num">${i+1}</div>
+      <div>${s}</div>
+    </div>`).join('');
+
+  const overall = data.color_general || 'amarillo';
+  const overallClass = { verde: 'green', amarillo: 'yellow', rojo: 'red' }[overall] || 'yellow';
+
+  const partialBadge = isPartial
+    ? `<div class="fh-partial">Evaluación parcial — conversación en curso</div>`
+    : '';
+
+  const html = `
+    <div class="feedback-header">
+      <h2>Evaluación de liderazgo</h2>
+      <div class="fh-meta">${chosenSituation.area} — ${chosenSituation.desc}</div>
+      ${partialBadge}
+    </div>
+    <div class="feedback-body">
+      <div>
+        <div class="feedback-section-title">Clasificación de tus mensajes</div>
+        ${buildColorBlock('verde', data.frases_verdes)}
+        ${buildColorBlock('amarillo', data.frases_amarillas)}
+        ${buildColorBlock('rojo', data.frases_rojas)}
+      </div>
+      <div class="general-eval">
+        <div class="overall-badge ${overallClass}">
+          ${colorEmoji[overall]} Evaluación general: ${overall.toUpperCase()}
+        </div>
+        <p class="eval-text">${data.evaluacion_general}</p>
+        <div class="suggestions-title">Sugerencias</div>
+        ${suggestions}
+      </div>
+    </div>
+    <div class="feedback-footer">
+      <button class="btn-fnew" onclick="restartConversation()">Nueva conversación</button>
+      <button class="btn-fclose" onclick="closeFeedback()">Cerrar</button>
+    </div>
+  `;
+
+  document.getElementById('feedbackContent').innerHTML = html;
+  document.getElementById('feedbackContent').style.display = 'block';
+}
+
+function closeFeedback() {
+  document.getElementById('feedbackOverlay').classList.remove('open');
+}
+
+function restartConversation() {
+  location.reload();
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+startConversation();
+</script>
+</body>
+</html>
