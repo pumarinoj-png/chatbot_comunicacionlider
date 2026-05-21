@@ -725,10 +725,10 @@ INSTRUCCIONES DE COMPORTAMIENTO:
 - Máximo 3-4 oraciones por respuesta.
 - Después de 5-8 intercambios, puedes cerrar la conversación de forma natural diciendo que tienes que volver al trabajo. Escribe exactamente al final de ese mensaje: [FIN_CONVERSACION]
 
-TONO: realista, humano, algo incómodo. No exageradamente defensivo desde el inicio — parte más en modo "informar" y solo se pone más defensivo si el jefe lo presiona o no responde bien.`;
+TONO: realista, algo incómodo. No exageradamente defensivo desde el inicio — parte más en modo "informar" y solo se pone más defensivo si el jefe lo presiona o no responde bien.`;
 
 async function callClaude(messages) {
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
+  const response = await fetch("/api/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -793,7 +793,7 @@ Responde SOLO con JSON válido, sin texto adicional ni backticks:
   ]
 }`;
 
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
+ const response = await fetch("/api/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
