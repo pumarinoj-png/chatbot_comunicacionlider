@@ -54,43 +54,23 @@
     z-index: 100;
   }
 
-  .header-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+  .header-brand { display: flex; align-items: center; gap: 10px; }
 
   .header-icon {
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     background: var(--accent);
     border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
   }
-
   .header-icon svg { width: 18px; height: 18px; color: white; }
 
   .header-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 18px;
-    color: var(--text);
-    letter-spacing: -0.3px;
+    font-size: 18px; color: var(--text); letter-spacing: -0.3px;
   }
+  .header-subtitle { font-size: 12px; color: var(--text-muted); font-weight: 400; }
 
-  .header-subtitle {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 400;
-  }
-
-  /* Header action buttons — always visible */
-  .header-actions {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
 
   .btn-header {
     background: transparent;
@@ -102,34 +82,100 @@
     border-radius: var(--radius-sm);
     cursor: pointer;
     transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    display: flex; align-items: center; gap: 5px;
     white-space: nowrap;
   }
-
   .btn-header:hover { background: var(--surface2); color: var(--text); border-color: #ccc; }
-
-  .btn-header.primary {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
-  }
-
-  .btn-header.primary:hover { opacity: 0.85; background: var(--accent); }
-
+  .btn-header.primary { background: var(--accent); color: white; border-color: var(--accent); }
+  .btn-header.primary:hover { opacity: 0.85; }
   .btn-header svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .btn-header:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-header:disabled:hover { background: transparent; color: var(--text-muted); border-color: var(--border); }
 
-  /* Disabled state for feedback button when no messages yet */
-  .btn-header:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
+  /* AREA SELECTOR SCREEN */
+  .area-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px 80px;
+    max-width: 680px;
+    width: 100%;
+    margin: 0 auto;
   }
-  .btn-header:disabled:hover {
-    background: transparent;
+
+  .area-screen h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .area-screen .area-subtitle {
+    font-size: 13px;
     color: var(--text-muted);
-    border-color: var(--border);
+    margin-bottom: 28px;
+    text-align: center;
   }
+
+  .area-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .area-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 18px;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: left;
+  }
+
+  .area-card:hover {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+  }
+
+  .area-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .area-card-gerencias {
+    font-size: 11px;
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .area-card-logic {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    line-height: 1.4;
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+  }
+
+  /* CHAT SCREEN */
+  .chat-screen {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+  }
+  .chat-screen.active { display: flex; }
 
   .main {
     flex: 1;
@@ -147,37 +193,19 @@
     border: 1px solid var(--accent-border);
     border-radius: var(--radius);
     padding: 14px 18px;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
+    display: flex; gap: 10px; align-items: flex-start;
   }
-
   .context-card .dot {
-    width: 7px;
-    height: 7px;
+    width: 7px; height: 7px;
     background: var(--accent);
-    border-radius: 50%;
-    flex-shrink: 0;
-    margin-top: 5px;
+    border-radius: 50%; flex-shrink: 0; margin-top: 5px;
   }
+  .context-card p { font-size: 12.5px; color: var(--accent); line-height: 1.5; font-weight: 500; }
 
-  .context-card p {
-    font-size: 12.5px;
-    color: var(--accent);
-    line-height: 1.5;
-    font-weight: 500;
-  }
-
-  .messages {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
+  .messages { display: flex; flex-direction: column; gap: 12px; }
 
   .msg {
-    display: flex;
-    gap: 10px;
-    align-items: flex-end;
+    display: flex; gap: 10px; align-items: flex-end;
     animation: fadeUp 0.25s ease;
   }
 
@@ -189,27 +217,13 @@
   .msg.user { flex-direction: row-reverse; }
 
   .avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 600;
+    width: 32px; height: 32px;
+    border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600;
   }
-
-  .avatar.bot-avatar {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-  }
-
-  .avatar.user-avatar {
-    background: var(--user-bg);
-    color: white;
-  }
+  .avatar.bot-avatar { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); }
+  .avatar.user-avatar { background: var(--user-bg); color: white; }
 
   .msg-content { max-width: 78%; }
   .msg.user .msg-content { display: flex; flex-direction: column; align-items: flex-end; }
@@ -220,7 +234,6 @@
     line-height: 1.6;
     font-size: 14.5px;
   }
-
   .msg.bot .bubble {
     background: var(--bot-bg);
     border: 1px solid var(--bot-border);
@@ -228,48 +241,33 @@
     box-shadow: var(--shadow);
     color: var(--text);
   }
-
   .msg.user .bubble {
     background: var(--user-bg);
     color: var(--user-text);
     border-bottom-right-radius: 4px;
   }
 
-  /* Stage direction: italic, small, muted — only for first bot message */
   .stage-direction {
-    font-size: 12px;
-    font-style: italic;
+    font-size: 12px; font-style: italic;
     color: var(--text-muted);
-    margin-bottom: 5px;
-    padding-left: 2px;
+    margin-bottom: 5px; padding-left: 2px;
   }
 
   .sender-name {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 11px; font-weight: 600;
     color: var(--text-muted);
     margin-bottom: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    text-transform: uppercase; letter-spacing: 0.5px;
   }
-
   .msg.user .sender-name { text-align: right; }
 
-  .typing-dots {
-    display: flex;
-    gap: 4px;
-    padding: 4px 0;
-    align-items: center;
-  }
-
+  .typing-dots { display: flex; gap: 4px; padding: 4px 0; align-items: center; }
   .typing-dots span {
-    width: 6px;
-    height: 6px;
+    width: 6px; height: 6px;
     background: var(--text-muted);
     border-radius: 50%;
     animation: bounce 1.2s infinite;
   }
-
   .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
   .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
 
@@ -279,148 +277,86 @@
   }
 
   .input-area {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: fixed; bottom: 0; left: 0; right: 0;
     background: linear-gradient(transparent, var(--bg) 28%);
     padding: 12px 16px 16px;
     z-index: 50;
   }
 
   .input-inner {
-    max-width: 760px;
-    margin: 0 auto;
+    max-width: 760px; margin: 0 auto;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: flex; align-items: center; gap: 8px;
     padding: 8px 8px 8px 16px;
     box-shadow: var(--shadow);
   }
 
   .input-inner textarea {
-    flex: 1;
-    border: none;
-    outline: none;
-    resize: none;
+    flex: 1; border: none; outline: none; resize: none;
     font-family: 'DM Sans', sans-serif;
-    font-size: 14.5px;
-    color: var(--text);
+    font-size: 14.5px; color: var(--text);
     background: transparent;
-    min-height: 24px;
-    max-height: 120px;
-    line-height: 1.5;
-    padding: 4px 0;
+    min-height: 24px; max-height: 120px;
+    line-height: 1.5; padding: 4px 0;
   }
-
   .input-inner textarea::placeholder { color: var(--text-muted); }
 
   .send-btn {
-    width: 38px;
-    height: 38px;
-    background: var(--accent);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: opacity 0.15s;
+    width: 38px; height: 38px;
+    background: var(--accent); border: none;
+    border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: opacity 0.15s;
   }
-
   .send-btn:hover { opacity: 0.85; }
   .send-btn:disabled { opacity: 0.35; cursor: not-allowed; }
   .send-btn svg { width: 16px; height: 16px; color: white; }
 
   /* FEEDBACK OVERLAY */
   .feedback-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
+    display: none; position: fixed; inset: 0;
     background: rgba(0,0,0,0.4);
-    z-index: 200;
-    overflow-y: auto;
+    z-index: 200; overflow-y: auto;
     padding: 24px 16px 40px;
   }
-
   .feedback-overlay.open { display: block; }
 
   .feedback-panel {
     background: var(--surface);
-    border-radius: 24px;
-    max-width: 680px;
-    margin: 0 auto;
-    overflow: hidden;
+    border-radius: 24px; max-width: 680px;
+    margin: 0 auto; overflow: hidden;
     box-shadow: 0 24px 64px rgba(0,0,0,0.2);
   }
 
-  .feedback-header {
-    background: var(--accent);
-    padding: 26px 30px;
-    color: white;
-  }
-
+  .feedback-header { background: var(--accent); padding: 26px 30px; color: white; }
   .feedback-header h2 {
     font-family: 'DM Serif Display', serif;
-    font-size: 22px;
-    margin-bottom: 5px;
-    font-weight: 400;
+    font-size: 22px; margin-bottom: 5px; font-weight: 400;
   }
+  .feedback-header .fh-meta { font-size: 12px; opacity: 0.7; line-height: 1.5; }
+  .feedback-header .fh-partial { font-size: 11.5px; opacity: 0.65; margin-top: 4px; font-style: italic; }
 
-  .feedback-header .fh-meta {
-    font-size: 12px;
-    opacity: 0.7;
-    line-height: 1.5;
-  }
-
-  .feedback-header .fh-partial {
-    font-size: 11.5px;
-    opacity: 0.65;
-    margin-top: 4px;
-    font-style: italic;
-  }
-
-  .feedback-body {
-    padding: 26px 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-  }
+  .feedback-body { padding: 26px 30px; display: flex; flex-direction: column; gap: 22px; }
 
   .feedback-section-title {
-    font-size: 11.5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.9px;
-    color: var(--text-muted);
-    margin-bottom: 10px;
+    font-size: 11.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.9px;
+    color: var(--text-muted); margin-bottom: 10px;
   }
 
-  .color-block {
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 8px;
-  }
-
+  .color-block { border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; }
   .color-block.green { background: #EAF6F0; border-left: 3px solid #2C8A5A; }
   .color-block.yellow { background: var(--amber-light); border-left: 3px solid #C4821A; }
   .color-block.red { background: var(--danger-light); border-left: 3px solid #C0392B; }
 
   .color-block .color-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
     margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    display: flex; align-items: center; gap: 6px;
   }
-
   .color-block.green .color-label { color: #1A6640; }
   .color-block.yellow .color-label { color: #7A4F1A; }
   .color-block.red .color-label { color: #8B2020; }
@@ -431,145 +367,90 @@
   .red .color-dot { background: #C0392B; }
 
   .color-block .phrase-item {
-    font-size: 13.5px;
-    line-height: 1.55;
-    color: var(--text);
-    padding: 6px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    font-size: 13.5px; line-height: 1.55; color: var(--text);
+    padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.06);
     font-style: italic;
   }
   .color-block .phrase-item:last-child { border-bottom: none; }
+  .color-block .empty-note { font-size: 13px; color: var(--text-muted); font-style: italic; }
 
-  .color-block .empty-note {
-    font-size: 13px;
-    color: var(--text-muted);
-    font-style: italic;
-  }
-
-  .general-eval {
-    background: var(--surface2);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-  }
+  .general-eval { background: var(--surface2); border-radius: var(--radius); padding: 18px 20px; }
 
   .overall-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 13px;
-    border-radius: 20px;
-    font-size: 11.5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 13px; border-radius: 20px;
+    font-size: 11.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px;
     margin-bottom: 12px;
   }
-
   .overall-badge.green { background: #EAF6F0; color: #1A6640; }
   .overall-badge.yellow { background: var(--amber-light); color: #7A4F1A; }
   .overall-badge.red { background: var(--danger-light); color: #8B2020; }
 
-  .eval-text {
-    font-size: 14px;
-    line-height: 1.7;
-    color: var(--text);
-    margin-bottom: 16px;
-  }
+  .eval-text { font-size: 14px; line-height: 1.7; color: var(--text); margin-bottom: 16px; }
 
   .suggestions-title {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--text-muted);
-    margin-bottom: 10px;
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--text-muted); margin-bottom: 10px;
   }
 
   .suggestion-item {
-    display: flex;
-    gap: 10px;
-    padding: 9px 0;
+    display: flex; gap: 10px; padding: 9px 0;
     border-bottom: 1px solid var(--border);
-    font-size: 13.5px;
-    line-height: 1.6;
-    color: var(--text);
+    font-size: 13.5px; line-height: 1.6; color: var(--text);
   }
   .suggestion-item:last-child { border-bottom: none; }
 
   .suggestion-num {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    background: var(--accent);
-    color: white;
+    flex-shrink: 0; width: 20px; height: 20px;
+    background: var(--accent); color: white;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 700;
-    margin-top: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; margin-top: 3px;
   }
 
   .feedback-footer {
-    padding: 18px 30px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
+    padding: 18px 30px; border-top: 1px solid var(--border);
+    display: flex; gap: 10px; justify-content: flex-end;
   }
 
   .btn-fclose {
-    background: var(--accent);
-    color: white;
-    border: none;
+    background: var(--accent); color: white; border: none;
     font-family: 'DM Sans', sans-serif;
-    font-size: 13.5px;
-    font-weight: 500;
-    padding: 9px 22px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: opacity 0.15s;
+    font-size: 13.5px; font-weight: 500;
+    padding: 9px 22px; border-radius: var(--radius-sm);
+    cursor: pointer; transition: opacity 0.15s;
   }
   .btn-fclose:hover { opacity: 0.85; }
 
   .btn-fnew {
-    background: transparent;
-    color: var(--text-muted);
+    background: transparent; color: var(--text-muted);
     border: 1px solid var(--border);
     font-family: 'DM Sans', sans-serif;
-    font-size: 13.5px;
-    padding: 9px 22px;
+    font-size: 13.5px; padding: 9px 22px;
     border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: all 0.15s;
+    cursor: pointer; transition: all 0.15s;
   }
   .btn-fnew:hover { background: var(--surface2); color: var(--text); }
 
   .loading-feedback {
-    text-align: center;
-    padding: 48px 32px;
-    color: var(--text-muted);
-    font-size: 14px;
+    text-align: center; padding: 48px 32px;
+    color: var(--text-muted); font-size: 14px;
   }
-
   .loading-feedback .spinner {
-    width: 30px;
-    height: 30px;
+    width: 30px; height: 30px;
     border: 2px solid var(--border);
     border-top-color: var(--accent);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     margin: 0 auto 14px;
   }
-
   @keyframes spin { to { transform: rotate(360deg); } }
 
   .end-notice {
-    text-align: center;
-    padding: 8px 16px;
-    font-size: 13px;
-    color: var(--text-muted);
+    text-align: center; padding: 8px 16px;
+    font-size: 13px; color: var(--text-muted);
     background: var(--surface2);
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
@@ -582,6 +463,7 @@
     .msg-content { max-width: 88%; }
     .btn-header span { display: none; }
     .btn-header { padding: 7px 10px; }
+    .area-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -615,15 +497,47 @@
   </div>
 </div>
 
-<div class="main">
-  <div class="context-card">
-    <div class="dot"></div>
-    <p>Eres el jefe. Tu colaborador se acercará con una situación problemática. Puedes pedir evaluación en cualquier momento o al final.</p>
+<!-- AREA SELECTOR -->
+<div class="area-screen" id="areaScreen">
+  <h2>¿Sobre qué área deseas practicar?</h2>
+  <p class="area-subtitle">Elige el ámbito de la situación que enfrentarás</p>
+  <div class="area-grid">
+    <div class="area-card" onclick="selectArea(0)">
+      <div class="area-card-title">Operaciones y Producción</div>
+      <div class="area-card-gerencias">Gerencia de Operaciones · Gerencia Logística · Gerencia Agrícola · Gerencia Zona Norte · Gerencia Avícola Zona Centro · Champiñones · Bioproductos</div>
+      <div class="area-card-logic">Operación diaria, producción, abastecimiento, cadena operacional y gestión de plantas, campos y unidades productivas.</div>
+    </div>
+    <div class="area-card" onclick="selectArea(1)">
+      <div class="area-card-title">Soporte Corporativo y Gestión Interna</div>
+      <div class="area-card-gerencias">Gerencia de Personas · Gerencia Administración y Finanzas · Asistente Ejecutivo · Asistencia Gerencia General</div>
+      <div class="area-card-logic">Gestión organizacional, soporte ejecutivo, administración de recursos y funcionamiento interno.</div>
+    </div>
+    <div class="area-card" onclick="selectArea(2)">
+      <div class="area-card-title">Desarrollo, Mejora y Control</div>
+      <div class="area-card-gerencias">Gerencia Calidad, Seguridad y Sustentabilidad · Gerencia de Tecnología y Alimentos · Gerencia de Ingeniería y Proyectos</div>
+      <div class="area-card-logic">Optimización, innovación, control técnico, sustentabilidad, calidad y proyectos de transformación.</div>
+    </div>
+    <div class="area-card" onclick="selectArea(3)">
+      <div class="area-card-title">Negocio y Crecimiento Comercial</div>
+      <div class="area-card-gerencias">Gerencia Comercial · Gerencia Otros Negocios</div>
+      <div class="area-card-logic">Relación con clientes, crecimiento, ingresos, desarrollo comercial y nuevas oportunidades de negocio.</div>
+    </div>
   </div>
-  <div class="messages" id="messages"></div>
 </div>
 
-<div class="input-area">
+<!-- CHAT -->
+<div class="chat-screen" id="chatScreen">
+  <div class="main">
+    <div class="context-card">
+      <div class="dot"></div>
+      <p>Eres el jefe. Tu colaborador se acercará con una situación problemática. Puedes pedir evaluación en cualquier momento o al final.</p>
+    </div>
+    <div class="messages" id="messages"></div>
+  </div>
+</div>
+
+<!-- INPUT -->
+<div class="input-area" id="inputArea" style="display:none">
   <div class="input-inner">
     <textarea id="userInput" placeholder="Responde como jefe..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
     <button class="send-btn" id="sendBtn" onclick="sendMessage()">
@@ -634,6 +548,7 @@
   </div>
 </div>
 
+<!-- FEEDBACK OVERLAY -->
 <div class="feedback-overlay" id="feedbackOverlay">
   <div class="feedback-panel">
     <div class="loading-feedback" id="feedbackLoading">
@@ -661,62 +576,101 @@ Porque los resultados sostenibles
 nacen de equipos resilientes,
 que crecen, se adaptan y dejan huella.`;
 
-const SITUATIONS = [
-  { area: "Operaciones", desc: "Un colaborador repite errores en el empaquetado y ya hubo reclamos de clientes." },
-  { area: "Calidad y Seguridad", desc: "Un técnico omitió registros sanitarios para ahorrar tiempo." },
-  { area: "Comercial", desc: "Un ejecutivo prometió una fecha de entrega imposible de cumplir." },
-  { area: "Administración", desc: "Se realizó un pago duplicado a un proveedor por descuido." },
-  { area: "Personas / RRHH", desc: "Dos colaboradores están en conflicto y afectan al equipo." },
-  { area: "Ingeniería y Proyectos", desc: "Un atraso crítico no fue informado a tiempo." },
-  { area: "Logística", desc: "Un pedido importante quedó fuera del despacho del día." },
-  { area: "Seguridad Laboral", desc: "Un operador experimentado incumple normas de seguridad." },
-  { area: "Servicio al Cliente", desc: "Un ejecutivo respondió mal a un reclamo relevante." },
-  { area: "Operaciones", desc: "Una colaboradora bajó abruptamente su desempeño y concentración." },
-  { area: "Producción", desc: "Una línea de producción estuvo detenida 40 minutos porque nadie reportó una falla menor a tiempo." },
-  { area: "Producción", desc: "Un turno produjo un lote completo fuera de especificación por no verificar un ajuste de máquina." },
-  { area: "Producción", desc: "Un operador nuevo no siguió el procedimiento correcto y generó merma innecesaria." },
-  { area: "Producción", desc: "El equipo del turno noche dejó problemas sin informar al siguiente turno." },
-  { area: "Producción", desc: "Un colaborador aceleró el ritmo de producción saltándose controles básicos para cumplir la meta diaria." },
+const GROUPS = [
+  {
+    name: "Operaciones y Producción",
+    situations: [
+      { desc: "Un colaborador repite errores en el empaquetado de bandejas y ya hubo reclamos de clientes." },
+      { desc: "Una línea de producción estuvo detenida casi una hora porque nadie reportó a tiempo una falla menor en el equipo." },
+      { desc: "Un turno produjo un lote completo fuera de especificación por no verificar el ajuste de una máquina antes de arrancar." },
+      { desc: "El equipo del turno noche dejó problemas sin informar al turno siguiente, que los descubrió demasiado tarde." },
+      { desc: "Un pedido importante de un supermercado cliente quedó fuera del despacho del día por un error de coordinación." },
+    ],
+    stageDirs: [
+      "Se acerca al final del turno, con cara de que algo salió mal...",
+      "Llega apurado desde la línea, aún con el casco puesto...",
+      "Entra a la oficina despacio, como buscando las palabras correctas...",
+      "Aparece en la puerta del turno de entrada, antes de que empiece la reunión...",
+      "Se asoma al despacho, mira si hay alguien más, y entra...",
+    ]
+  },
+  {
+    name: "Soporte Corporativo y Gestión Interna",
+    situations: [
+      { desc: "Se realizó un pago duplicado a un proveedor por un descuido administrativo que nadie detectó a tiempo." },
+      { desc: "Dos colaboradores del equipo mantienen un conflicto personal que está afectando el ambiente y la coordinación del área." },
+      { desc: "Una colaboradora bajó abruptamente su desempeño y concentración en las últimas semanas, y el equipo ya lo nota." },
+      { desc: "Un asistente olvidó informar un cambio relevante en la agenda de una reunión crítica con la gerencia general." },
+    ],
+    stageDirs: [
+      "Llega a la oficina con un papel en la mano, algo nervioso...",
+      "Se sienta sin que nadie lo invitara, señal de que trae algo importante...",
+      "Entra en silencio, cierra la puerta despacio...",
+      "Toca el marco antes de entrar, titubea un momento...",
+    ]
+  },
+  {
+    name: "Desarrollo, Mejora y Control",
+    situations: [
+      { desc: "Un técnico omitió registros sanitarios obligatorios 'para ahorrar tiempo', y quedó sin trazabilidad del lote." },
+      { desc: "Un operador con años de experiencia incumple sistemáticamente normas de seguridad frente a sus compañeros más nuevos." },
+      { desc: "Un atraso crítico en un proyecto de mejora no fue informado a tiempo, y ahora compromete el cronograma general." },
+      { desc: "Un operador nuevo generó merma innecesaria en la línea por no seguir el procedimiento correcto, que nadie le explicó bien." },
+    ],
+    stageDirs: [
+      "Llega con un informe a medio terminar, evitando el contacto visual...",
+      "Se para en el pasillo y espera que lo noten antes de hablar...",
+      "Entra directo, como quien quiere soltar algo antes de arrepentirse...",
+      "Llega con cara de que preferiría no estar teniendo esta conversación...",
+    ]
+  },
+  {
+    name: "Negocio y Crecimiento Comercial",
+    situations: [
+      { desc: "Un ejecutivo comercial prometió a un cliente una fecha de entrega que operaciones no puede cumplir." },
+      { desc: "Un ejecutivo respondió de mala manera ante el reclamo de un cliente relevante, y el cliente lo escaló." },
+      { desc: "Un cliente estratégico amenazó con terminar el contrato por problemas reiterados de coordinación entre comercial y operaciones." },
+      { desc: "Un jefe comercial detectó que un colaborador está priorizando volumen de ventas por sobre márgenes y rentabilidad." },
+    ],
+    stageDirs: [
+      "Entra a la oficina con el celular en la mano, como si acabara de recibir una llamada complicada...",
+      "Se sienta frente al escritorio con una sonrisa forzada que no convence a nadie...",
+      "Llega directo al punto, aunque se nota que preferiría no estar ahí...",
+      "Toca la puerta abierta antes de entrar, busca si hay alguien más escuchando...",
+    ]
+  }
 ];
 
-// Stage directions for the opening — one per situation (same order)
-const STAGE_DIRECTIONS = [
-  "Se acerca con cara de preocupación, evitando el contacto visual...",
-  "Llega apurado, con papeles en la mano, como si recién se hubiera enterado...",
-  "Aparece en la puerta de la oficina, titubea antes de entrar...",
-  "Se sienta frente al escritorio, tamborilea los dedos, busca cómo empezar...",
-  "Entra y cierra la puerta despacio, sin mucho apuro...",
-  "Se para en el marco de la puerta, con cara de que trae malas noticias...",
-  "Llega directo, como quien quiere soltar algo antes de arrepentirse...",
-  "Pasa de largo y luego retrocede, claramente con algo que decir...",
-  "Entra con una sonrisa forzada que no convence...",
-  "Se acerca lentamente, como calculando cómo plantear la situación...",
-  "Aparece con cara larga, mira alrededor antes de hablar...",
-  "Entra y se sienta sin que nadie lo invitara, señal de que algo pasó...",
-  "Toca el marco de la puerta antes de entrar, algo nervioso...",
-  "Llega directo al grano, aunque se nota que preferiría no estar ahí...",
-  "Se asoma, revisa que no haya nadie más escuchando, y entra...",
-];
-
-const chosenIndex = Math.floor(Math.random() * SITUATIONS.length);
-const chosenSituation = SITUATIONS[chosenIndex];
-const chosenStageDirection = STAGE_DIRECTIONS[chosenIndex];
-
+let chosenGroup = null;
+let chosenSituation = null;
+let chosenStageDirection = null;
 let conversationHistory = [];
 let userMessagesLog = [];
 let turnCount = 0;
 let isEnded = false;
 let isLoading = false;
-let isFirstBotMessage = true;
 
-const systemPrompt = `Eres un colaborador/subalterno hablando con tu jefe directo. Tu nombre es Andrés.
+function selectArea(groupIndex) {
+  chosenGroup = GROUPS[groupIndex];
+  const idx = Math.floor(Math.random() * chosenGroup.situations.length);
+  chosenSituation = chosenGroup.situations[idx];
+  chosenStageDirection = chosenGroup.stageDirs[idx];
+
+  document.getElementById('areaScreen').style.display = 'none';
+  document.getElementById('chatScreen').classList.add('active');
+  document.getElementById('inputArea').style.display = 'block';
+
+  startConversation();
+}
+
+function buildSystemPrompt() {
+  return `Eres un colaborador/subalterno hablando con tu jefe directo. Tu nombre es Andrés.
 
 CONTEXTO DE LA EMPRESA:
 Trabajas en Ariztía, empresa chilena líder en producción y comercialización de alimentos, especialmente aves y productos derivados. La empresa tiene plantas de producción, líneas de proceso, turnos de trabajo, cadena de frío, despacho a supermercados y clientes mayoristas, y control de calidad sanitario estricto (SEREMI, SAG). Los productos son perecibles: bandejas de pechuga, pollos enteros, cecinas, etc. Los clientes son supermercados y distribuidores. Los procesos incluyen línea de faenado, empaque al vacío, cámara de frío, despacho. Usa este contexto para hacer los problemas verosímiles y concretos.
 
-SITUACIÓN QUE DEBES REPORTAR:
-Área: ${chosenSituation.area}
-Problema: ${chosenSituation.desc}
+ÁREA: ${chosenGroup.name}
+SITUACIÓN QUE DEBES REPORTAR: ${chosenSituation.desc}
 
 INSTRUCCIONES DE COMPORTAMIENTO:
 - Comienzas reportando la situación de forma vaga o incompleta. NO reconoces responsabilidad propia al inicio — le das un tono neutro o externalizado al problema, como si fuera algo que "pasó" más que algo que tú causaste o pudiste evitar.
@@ -729,6 +683,7 @@ INSTRUCCIONES DE COMPORTAMIENTO:
 - Después de 5-8 intercambios, puedes cerrar la conversación de forma natural diciendo que tienes que volver al trabajo. Escribe exactamente al final de ese mensaje: [FIN_CONVERSACION]
 
 TONO: realista, humano, algo incómodo. No exageradamente defensivo desde el inicio — parte más en modo "informar" y solo se pone más defensivo si el jefe lo presiona o no responde bien.`;
+}
 
 async function callClaude(messages) {
   const response = await fetch("/api/chat", {
@@ -737,7 +692,7 @@ async function callClaude(messages) {
     body: JSON.stringify({
       model: "claude-sonnet-4-20250514",
       max_tokens: 400,
-      system: systemPrompt,
+      system: buildSystemPrompt(),
       messages: messages
     })
   });
@@ -750,38 +705,42 @@ async function callClaudeForFeedback(userMessages, isPartial) {
     ? `IMPORTANTE: Esta evaluación es parcial — la conversación aún no ha terminado. En la evaluación general, señala explícitamente qué aspectos de liderazgo todavía no han sido abordados o quedan pendientes de demostrar.`
     : `La conversación ya ha terminado.`;
 
-  const feedbackPrompt = `Eres un experto en liderazgo y comunicación organizacional. Evalúas con criterio real, no de manera condescendiente ni excesivamente positiva.
+  const feedbackPrompt = `Eres un experto en liderazgo y comunicación organizacional. Evalúas con criterio justo y contextualizado, no de manera hiper-exigente ni condescendiente.
 
 El usuario participó en una simulación actuando como jefe de un colaborador que reportó una situación problemática.
 
 SELLO DE LIDERAZGO DE REFERENCIA:
 ${SELLO}
 
-SITUACIÓN: ${chosenSituation.area} — ${chosenSituation.desc}
+ÁREA: ${chosenGroup.name}
+SITUACIÓN: ${chosenSituation.desc}
 
-MENSAJES DEL JEFE (en orden cronológico, estos son TODOS los mensajes del jefe):
+MENSAJES DEL JEFE (en orden cronológico, estos son TODOS sus mensajes):
 ${userMessages.map((m, i) => `${i+1}. "${m}"`).join('\n')}
 
 ${partialNote}
 
 INSTRUCCIONES DE EVALUACIÓN:
 
-CRITERIOS DE COLOR — aplica estos con precisión:
+CRITERIOS DE COLOR — aplica con sentido común y justicia:
 
-VERDE: El jefe mantiene empatía y calma, pero además es firme, pone límites claros cuando corresponde, orienta hacia soluciones concretas y hace que las cosas pasen. Escucha antes de hablar, pero no se queda solo en escuchar — involucra, exige con respaldo, enseña. Transmite elementos del sello: cercanía, confianza con involucramiento, proyección de futuro, coherencia entre lo que dice y lo que hace. Es verde cuando el mensaje combina calidez con dirección real.
+VERDE: El mensaje demuestra al menos uno de estos rasgos del sello: escucha activa, empatía genuina, preguntas abiertas para entender antes de juzgar, orientación hacia solución, firmeza respetuosa, cercanía, involucramiento, enseñanza, o hacer que las cosas pasen. Un saludo que abre el diálogo ("¿qué pasó?", "cuéntame") es verde si invita a hablar. Un mensaje que combina calma con dirección concreta es claramente verde.
 
-AMARILLO: El mensaje tiene buena intención pero le falta profundidad, firmeza o concreción. Puede ser empático pero evasivo, o directo pero sin escucha. Roza el sello sin encarnarlo del todo. También es amarillo quien hace preguntas pero nunca llega a nada, o quien muestra interés pero no se involucra de verdad.
+AMARILLO: El mensaje tiene buena intención pero le falta profundidad, claridad o seguimiento. Puede ser empático pero demasiado vago, o directo pero sin escucha. Mensajes neutros que no abren ni cierran. Quien muestra interés pero no se involucra de verdad. Quien hace preguntas pero nunca llega a orientar ni resolver.
 
-ROJO — hay DOS tipos de rojo, igualmente problemáticos:
-  Tipo A — Rojo por dureza: mensajes fríos, acusatorios, con presión, sarcasmo, reproches o que cierran el diálogo. Generan tensión o rechazo. Muy desalineados del sello.
-  Tipo B — Rojo por condescendencia: mensajes que solo buscan calmar al colaborador, complacer, evitar el conflicto a toda costa, sin resolver nada ni poner ningún límite. El jefe "se borra", no exige, no hace que las cosas pasen, no es ejemplo. Parece empático pero en realidad abandona su rol. También es rojo porque traiciona el sello: un liderazgo que no inspira, no enseña ni exige, no produce resultados sostenibles.
+ROJO — solo hay dos tipos de mensajes que merecen rojo:
+  Tipo A — Dureza dañina: mensajes que acusan, presionan agresivamente, usan sarcasmo, hacen reproches directos, humillan, o cierran el diálogo de forma brusca. Generan tensión, dañan la confianza o la motivación del colaborador.
+  Tipo B — Condescendencia sin liderazgo: mensajes que solo buscan calmar o complacer al colaborador para evitar el conflicto, sin resolver nada, sin poner ningún límite, sin hacer que las cosas pasen. El jefe "desaparece" de su rol. Parece amable pero abandona su responsabilidad de liderar.
 
-REGLAS ADICIONALES:
-- Evalúa si el mensaje transmite o contradice aspectos concretos del sello: ¿escucha antes de hablar? ¿confía pero se involucra? ¿enseña para poder exigir? ¿conecta? ¿proyecta futuro? ¿hace que las cosas pasen? ¿es coherente? ¿inspira?
-- No seas permisivo: "buenas intenciones" sin acción ni firmeza = amarillo o rojo tipo B.
-- Un mensaje cortés pero que no resuelve ni orienta no es verde.
-- La evaluación general debe basarse en lo que REALMENTE ocurrió, no en lo que podría haber pasado.
-- Las sugerencias deben ser exactamente 2, concretas y accionables.
+REGLA CLAVE DE PROPORCIONALIDAD:
+- Un saludo amable o una pregunta abierta inicial ("hola, ¿qué pasó?", "cuéntame") es VERDE — abre el diálogo, escucha antes de hablar, respeta al colaborador.
+- Solo es rojo si el mensaje claramente daña, bloquea o abandona el rol de liderazgo.
+- En caso de duda entre amarillo y rojo, clasifica como amarillo.
+- Evalúa el mensaje en su contexto: el mismo mensaje puede ser verde al inicio y amarillo al final si nunca progresa.
+- No penalices la brevedad ni la informalidad si el mensaje abre bien la conversación.
+
+La evaluación general debe basarse en lo que REALMENTE ocurrió, no en lo que podría haber pasado.
+Las sugerencias deben ser exactamente 2, concretas y accionables.
 
 Responde SOLO con JSON válido, sin texto adicional ni backticks:
 {
@@ -819,9 +778,7 @@ function addMessage(role, text, stageDir) {
   const avatarText = isBot ? 'AN' : 'JE';
   const senderName = isBot ? 'Andrés' : 'Tú';
 
-  const stageDirHtml = stageDir
-    ? `<div class="stage-direction">${stageDir}</div>`
-    : '';
+  const stageDirHtml = stageDir ? `<div class="stage-direction">${stageDir}</div>` : '';
 
   div.innerHTML = `
     <div class="avatar ${avatarClass}">${avatarText}</div>
@@ -862,17 +819,15 @@ async function startConversation() {
   try {
     const greeting = await callClaude([{
       role: "user",
-      content: "Inicia la conversación. Reporta la situación a tu jefe de forma natural. Parte en modo de 'informar', sin ponerte defensivo todavía — ese tono solo aparece si el jefe te presiona. Sé breve."
+      content: "Inicia la conversación. Reporta la situación a tu jefe de forma natural. Parte en modo de 'informar', sin ponerte defensivo todavía. Sé breve y usa el contexto de Ariztía."
     }]);
     removeTyping();
     addMessage('bot', greeting, chosenStageDirection);
     conversationHistory.push({ role: "user", content: "Inicia la conversación reportando la situación." });
     conversationHistory.push({ role: "assistant", content: greeting });
-    isFirstBotMessage = false;
   } catch(e) {
     removeTyping();
     addMessage('bot', 'Jefe, ¿tiene un momento? Pasó algo que necesito contarle...', chosenStageDirection);
-    isFirstBotMessage = false;
   }
   document.getElementById('sendBtn').disabled = false;
 }
@@ -890,9 +845,7 @@ async function sendMessage() {
   conversationHistory.push({ role: "user", content: text });
   turnCount++;
 
-  // Enable feedback button after first user message
   document.getElementById('btnFeedback').disabled = false;
-
   document.getElementById('sendBtn').disabled = true;
   isLoading = true;
   showTyping();
@@ -929,7 +882,6 @@ async function sendMessage() {
 
 async function openFeedback() {
   if (userMessagesLog.length === 0) return;
-
   document.getElementById('feedbackOverlay').classList.add('open');
   document.getElementById('feedbackLoading').style.display = 'block';
   document.getElementById('feedbackContent').style.display = 'none';
@@ -973,15 +925,12 @@ function renderFeedback(data, isPartial) {
 
   const overall = data.color_general || 'amarillo';
   const overallClass = { verde: 'green', amarillo: 'yellow', rojo: 'red' }[overall] || 'yellow';
-
-  const partialBadge = isPartial
-    ? `<div class="fh-partial">Evaluación parcial — conversación en curso</div>`
-    : '';
+  const partialBadge = isPartial ? `<div class="fh-partial">Evaluación parcial — conversación en curso</div>` : '';
 
   const html = `
     <div class="feedback-header">
       <h2>Evaluación de liderazgo</h2>
-      <div class="fh-meta">${chosenSituation.area} — ${chosenSituation.desc}</div>
+      <div class="fh-meta">${chosenGroup.name} — ${chosenSituation.desc}</div>
       ${partialBadge}
     </div>
     <div class="feedback-body">
@@ -1014,9 +963,7 @@ function closeFeedback() {
   document.getElementById('feedbackOverlay').classList.remove('open');
 }
 
-function restartConversation() {
-  location.reload();
-}
+function restartConversation() { location.reload(); }
 
 function handleKey(e) {
   if (e.key === 'Enter' && !e.shiftKey) {
@@ -1029,8 +976,6 @@ function autoResize(el) {
   el.style.height = 'auto';
   el.style.height = Math.min(el.scrollHeight, 120) + 'px';
 }
-
-startConversation();
 </script>
 </body>
 </html>
