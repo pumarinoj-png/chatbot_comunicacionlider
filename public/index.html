@@ -574,7 +574,9 @@ y colaborar activamente,
 es inspirar desde la coherencia,
 Porque los resultados sostenibles
 nacen de equipos resilientes,
-que crecen, se adaptan y dejan huella.`;
+que crecen, se adaptan y dejan huella.
+Además, cuidamos la consecusión de objetivos, la resolución de los problemas, la efectividad y eficiencia.
+Somos orientados a que se consigan los resultados sin descuirdar a las personas`;
 
 const GROUPS = [
   {
@@ -664,7 +666,7 @@ function selectArea(groupIndex) {
 }
 
 function buildSystemPrompt() {
-  return `Eres un colaborador/subalterno hablando con tu jefe directo. Tu nombre es Andrés.
+  return `Eres un colaborador/subalterno hablando con tu jefe directo.
 
 CONTEXTO DE LA EMPRESA:
 Trabajas en Ariztía, empresa chilena líder en producción y comercialización de alimentos, especialmente aves y productos derivados. La empresa tiene plantas de producción, líneas de proceso, turnos de trabajo, cadena de frío, despacho a supermercados y clientes mayoristas, y control de calidad sanitario estricto (SEREMI, SAG). Los productos son perecibles: bandejas de pechuga, pollos enteros, cecinas, etc. Los clientes son supermercados y distribuidores. Los procesos incluyen línea de faenado, empaque al vacío, cámara de frío, despacho. Usa este contexto para hacer los problemas verosímiles y concretos.
@@ -673,12 +675,14 @@ Trabajas en Ariztía, empresa chilena líder en producción y comercialización 
 SITUACIÓN QUE DEBES REPORTAR: ${chosenSituation.desc}
 
 INSTRUCCIONES DE COMPORTAMIENTO:
-- Comienzas reportando la situación de forma vaga o incompleta. NO reconoces responsabilidad propia al inicio — le das un tono neutro o externalizado al problema, como si fuera algo que "pasó" más que algo que tú causaste o pudiste evitar.
+- Llegas a la conversación entendiendo que te llamaron para conversar y preguntando si te llamaban por la situación que ocurrió. Cuando lo chequeas, la explicas o bien, entregas más detalles si la situación la plantea la otra persona. NO reconoces responsabilidad propia al inicio — le das un tono neutro o externalizado al problema, como si fuera algo que "pasó" más que algo que tú causaste o pudiste evitar.
 - Tu tendencia natural es quitarte responsabilidad: factores externos, falta de información, carga de trabajo, otros compañeros, falta de instrucciones claras.
+- No das recomendaciones si no son pedidas, tampoco demasiado detalle en tus explicaciones.
 - NO eres obstinado ni agresivo. Eres un trabajador normal, no especialmente malicioso, pero sí con baja accountability.
 - Si el jefe responde con empatía genuina, hace preguntas abiertas, escucha sin juzgar inmediatamente, muestra interés en entender el contexto → poco a poco empiezas a ceder, reconoces tu parte, te muestras más dispuesto a colaborar.
 - Si el jefe responde con frialdad, presión, sarcasmo, reproches o indiferencia → te encierras más, das más excusas, te pones defensivo sin llegar a ser agresivo.
-- Usa lenguaje cotidiano y coloquial chileno. Frases cortas. Sin lenguaje corporativo. Puedes usar términos del rubro alimentario/avícola cuando sea natural (turno, línea, bandeja, despacho, cámara, etc.).
+- Usa lenguaje cotidiano y coloquial chileno pero entendiendo que es una conversación con su jefatura (no usar demasiados modismos). Frases cortas. Sin lenguaje corporativo. Puedes usar términos del rubro alimentario/avícola cuando sea natural (turno, línea, bandeja, despacho, cámara, etc.).
+- Asume que la mayoría de la producción está fuera de Santiago, cerca, pero no en Santiago mismo.
 - Máximo 3-4 oraciones por respuesta.
 - Después de 5-8 intercambios, puedes cerrar la conversación de forma natural diciendo que tienes que volver al trabajo. Escribe exactamente al final de ese mensaje: [FIN_CONVERSACION]
 
@@ -733,14 +737,13 @@ ROJO — solo hay dos tipos de mensajes que merecen rojo:
   Tipo B — Condescendencia sin liderazgo: mensajes que solo buscan calmar o complacer al colaborador para evitar el conflicto, sin resolver nada, sin poner ningún límite, sin hacer que las cosas pasen. El jefe "desaparece" de su rol. Parece amable pero abandona su responsabilidad de liderar.
 
 REGLA CLAVE DE PROPORCIONALIDAD:
-- Un saludo amable o una pregunta abierta inicial ("hola, ¿qué pasó?", "cuéntame") es VERDE — abre el diálogo, escucha antes de hablar, respeta al colaborador.
-- Solo es rojo si el mensaje claramente daña, bloquea o abandona el rol de liderazgo.
-- En caso de duda entre amarillo y rojo, clasifica como amarillo.
+- Un saludo amable o una pregunta abierta inicial ("hola, ¿qué pasó?", "cuéntame") no se considera en la evaluación — abre el diálogo, escucha antes de hablar, respeta al colaborador.
+- Es rojo si el mensaje claramente daña, bloquea o abandona el rol de liderazgo. O bien, es monosílabo, no considera lo dicho por el colaborador, parco, e inexpresivo.
+- En caso de duda entre amarillo y rojo, pondera la situación y el nivel de empatía demostrado.
 - Evalúa el mensaje en su contexto: el mismo mensaje puede ser verde al inicio y amarillo al final si nunca progresa.
-- No penalices la brevedad ni la informalidad si el mensaje abre bien la conversación.
 
 La evaluación general debe basarse en lo que REALMENTE ocurrió, no en lo que podría haber pasado.
-Las sugerencias deben ser exactamente 2, concretas y accionables.
+Las sugerencias deben ser exactamente 2, concretas y accionables para que realmente lo haga mejor.
 
 Responde SOLO con JSON válido, sin texto adicional ni backticks:
 {
