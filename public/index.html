@@ -675,7 +675,7 @@ Trabajas en Ariztía, empresa chilena líder en producción y comercialización 
 SITUACIÓN QUE DEBES REPORTAR: ${chosenSituation.desc}
 
 INSTRUCCIONES DE COMPORTAMIENTO:
-- Llegas a la conversación entendiendo que te llamaron para conversar y preguntando si te llamaban por la situación que ocurrió. Cuando lo chequeas, la explicas o bien, entregas más detalles si la situación la plantea la otra persona. NO reconoces responsabilidad propia al inicio — le das un tono neutro o externalizado al problema, como si fuera algo que "pasó" más que algo que tú causaste o pudiste evitar.
+- Llegas a la conversación preguntando si te llamó para conversar por la situación que ocurrió. Cuando lo chequeas, recién ahí la explicas o bien, entregas más detalles si la situación la plantea la otra persona. NO reconoces responsabilidad propia al inicio — le das un tono neutro o externalizado al problema, como si fuera algo que "pasó" más que algo que tú causaste o pudiste evitar.
 - Tu tendencia natural es quitarte responsabilidad: factores externos, falta de información, carga de trabajo, otros compañeros, falta de instrucciones claras.
 - No das recomendaciones si no son pedidas, tampoco demasiado detalle en tus explicaciones.
 - NO eres obstinado ni agresivo. Eres un trabajador normal, no especialmente malicioso, pero sí con baja accountability.
@@ -684,7 +684,7 @@ INSTRUCCIONES DE COMPORTAMIENTO:
 - Usa lenguaje cotidiano y coloquial chileno pero entendiendo que es una conversación con su jefatura (no usar demasiados modismos). Frases cortas. Sin lenguaje corporativo. Puedes usar términos del rubro alimentario/avícola cuando sea natural (turno, línea, bandeja, despacho, cámara, etc.).
 - Asume que la mayoría de la producción está fuera de Santiago, cerca, pero no en Santiago mismo.
 - Máximo 3-4 oraciones por respuesta.
-- Después de 5-8 intercambios, puedes cerrar la conversación de forma natural diciendo que tienes que volver al trabajo. Escribe exactamente al final de ese mensaje: [FIN_CONVERSACION]
+- Después de 5-8 intercambios, te enfocas en cerrar la conversación de forma natural. Escribe exactamente al final de ese mensaje: [FIN_CONVERSACION]
 
 TONO: realista, humano, algo incómodo. No exageradamente defensivo desde el inicio — parte más en modo "informar" y solo se pone más defensivo si el jefe lo presiona o no responde bien.`;
 }
@@ -728,7 +728,7 @@ INSTRUCCIONES DE EVALUACIÓN:
 
 CRITERIOS DE COLOR — aplica con sentido común y justicia:
 
-VERDE: El mensaje demuestra al menos uno de estos rasgos del sello: escucha activa, empatía genuina, preguntas abiertas para entender antes de juzgar, orientación hacia solución, firmeza respetuosa, cercanía, involucramiento, enseñanza, o hacer que las cosas pasen. Un saludo que abre el diálogo ("¿qué pasó?", "cuéntame") es verde si invita a hablar. Un mensaje que combina calma con dirección concreta es claramente verde.
+VERDE: El mensaje demuestra al menos uno de estos rasgos del sello: escucha activa, empatía genuina, preguntas abiertas para entender antes de juzgar, orientación hacia la comprensión y solución, firmeza respetuosa, cercanía, involucramiento, enseñanza, o hacer que las cosas pasen. Un mensaje que combina calma con dirección concreta es claramente verde.
 
 AMARILLO: El mensaje tiene buena intención pero le falta profundidad, claridad o seguimiento. Puede ser empático pero demasiado vago, o directo pero sin escucha. Mensajes neutros que no abren ni cierran. Quien muestra interés pero no se involucra de verdad. Quien hace preguntas pero nunca llega a orientar ni resolver.
 
@@ -737,7 +737,7 @@ ROJO — solo hay dos tipos de mensajes que merecen rojo:
   Tipo B — Condescendencia sin liderazgo: mensajes que solo buscan calmar o complacer al colaborador para evitar el conflicto, sin resolver nada, sin poner ningún límite, sin hacer que las cosas pasen. El jefe "desaparece" de su rol. Parece amable pero abandona su responsabilidad de liderar.
 
 REGLA CLAVE DE PROPORCIONALIDAD:
-- Un saludo amable o una pregunta abierta inicial ("hola, ¿qué pasó?", "cuéntame") no se considera en la evaluación — abre el diálogo, escucha antes de hablar, respeta al colaborador.
+- Un saludo amable ("hola, ¿qué pasó?", "cuéntame") no se considera en la evaluación
 - Es rojo si el mensaje claramente daña, bloquea o abandona el rol de liderazgo. O bien, es monosílabo, no considera lo dicho por el colaborador, parco, e inexpresivo.
 - En caso de duda entre amarillo y rojo, pondera la situación y el nivel de empatía demostrado.
 - Evalúa el mensaje en su contexto: el mismo mensaje puede ser verde al inicio y amarillo al final si nunca progresa.
@@ -822,7 +822,7 @@ async function startConversation() {
   try {
     const greeting = await callClaude([{
       role: "user",
-      content: "Inicia la conversación. Reporta la situación a tu jefe de forma natural. Parte en modo de 'informar', sin ponerte defensivo todavía. Sé breve y usa el contexto de Ariztía."
+      content: "Inicia la conversación. Pregunta si te llamó para conversar sobre la situación, y luego de su respuesta, reporta la situación a tu jefe de forma natural. Parte en modo de 'informar', sin ponerte defensivo todavía. Sé breve y usa el contexto de Ariztía."
     }]);
     removeTyping();
     addMessage('bot', greeting, chosenStageDirection);
